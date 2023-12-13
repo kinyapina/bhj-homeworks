@@ -18,13 +18,15 @@ document.getElementById('cookie').onclick = function (event) {
   //ЗАДАНИЕ СО **
   clickTime.push(new Date().getTime());
 
+  /*
   for (let i = 0; i < clickTime.length - 1; i++) {
     clickInterval.push(clickTime[i + 1] - clickTime[i]);
   }
-
-  let clickSpeed = clickTime.length / clickInterval.reduce((acc, item) => acc + item, 0);
-
   console.log(`Интервалы между кликами ${clickInterval}`);
+  */
+
+  let clickSpeed = (clickTime.reduce((acc, item) => acc + item, 0)) / 1000 / clickTime.length;
+
   console.log(`Количество кликов ${clickTime.length}`);
   console.log(`Скорость клика ${clickSpeed}`);
 
