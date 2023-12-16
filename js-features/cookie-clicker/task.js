@@ -15,19 +15,17 @@ document.getElementById('cookie').onclick = function (event) {
 
   document.getElementById('clicker__counter').textContent = cookieCounter;
 
-  //ЗАДАНИЕ СО **
-  clickTime.push(new Date().getTime());
+  clickTime.push(Date.now());
 
-  /*
-  for (let i = 0; i < clickTime.length - 1; i++) {
-    clickInterval.push(clickTime[i + 1] - clickTime[i]);
+  let firstClickTime = clickTime[0];
+  let lastClickTime = clickTime[clickTime.length - 1];
+
+
+  let clickSpeed = (clickTime.length / (lastClickTime - firstClickTime) * 1000).toFixed(2);
+
+  if (firstClickTime === lastClickTime) {
+    clickSpeed = (clickTime.length / (firstClickTime) * 1000).toFixed(2);
   }
-  console.log(`Интервалы между кликами ${clickInterval}`);
-  */
 
-  let clickSpeed = (clickTime.reduce((acc, item) => acc + item, 0)) / 1000 / clickTime.length;
-
-  console.log(`Количество кликов ${clickTime.length}`);
-  console.log(`Скорость клика ${clickSpeed}`);
-
+  document.getElementById('clicker__speed').textContent = clickSpeed;
 }
