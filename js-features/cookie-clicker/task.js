@@ -1,6 +1,5 @@
 let cookieCounter = 0;
 let clickTime = [];
-let clickInterval = [];
 
 document.getElementById('cookie').onclick = function (event) {
   cookieCounter++;
