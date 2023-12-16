@@ -1,5 +1,3 @@
-//Таймер обратного отсчёта
-
 const timer = function () {
   const timerStart = document.getElementById("timer");
 
