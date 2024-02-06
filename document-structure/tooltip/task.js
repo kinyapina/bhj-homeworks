@@ -2,34 +2,28 @@ const links = document.querySelectorAll('.has-tooltip');
 let tooltip;
 
 const createTooltip = (link) => {
-  console.log(tooltip);
-
   if (tooltip) {
+    if (tooltip.innerHTML == link.getAttribute('title')) {
+      tooltip.classList.toggle('tooltip_active');
+      return;
+    }
     tooltip.remove();
     tooltip = undefined;
-    return;
   }
 
   tooltip = document.createElement('div');
-
-  const title = link.getAttribute('title');
-  tooltip.textContent = title;
-
+  tooltip.textContent = link.getAttribute('title');
   tooltip.classList.add('tooltip');
 
-  console.log(link.offsetLeft, link.offsetTop);
-  console.log(tooltip.getBoundingClientRect().top);
+  let coords = link.getBoundingClientRect();
 
-  /* tooltip.style.left = link.offsetLeft;
-  tooltip.style.top = link.offsetTop + 10; */
+  tooltip.style.left = coords.left + 'px';
+  tooltip.style.top = coords.bottom + 'px';
 
-  link.appendChild(tooltip);
   tooltip.classList.add('tooltip_active');
+  link.after(tooltip);
 
-  tooltip.style.cssText += `
-    top: ${link.offsetTop + 15}px;
-    left: ${link.offsetLeft + 10}px;
-  `;
+  return tooltip;
 }
 
 for (let i = 0; i <= links.length - 1; i++) {

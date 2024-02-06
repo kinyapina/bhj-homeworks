@@ -9,19 +9,6 @@ const productQuantityPlus = document.querySelectorAll('.product__quantity-contro
 const btnAddToCart = document.querySelectorAll('.product__add');
 const productCounter = [];
 
-/* 
-const Product = {
-  imageSrc,
-  title,
-  quantity,
-  constructor(product) {
-    this.imageSrc = product.querySelector('.product__image').src;
-    this.title = product.querySelector('.product__title').innerText;
-    this.quantity = product.querySelector('.product__quantity-value').innerText;
-  }
-}; 
-*/
-
 for (let i = 0; i <= productQuantityValue.length - 1; i++) {
   productCounter[i] = productQuantityValue[i].innerText;
 }
@@ -40,6 +27,9 @@ const increaseProductQuantity = (index) => {
 
 for (let i = 0; i <= productTitle.length - 1; i++) {
   productQuantityMinus[i].addEventListener('click', (event) => {
+    if (Number(productQuantityValue[i].innerHTML) <= 1) {
+      return;
+    }
     reduceProductQuantity(i);
     productQuantityValue[i].innerHTML = productCounter[i];
   })
@@ -56,21 +46,27 @@ for (let i = 0; i <= btnAddToCart.length - 1; i++) {
   btnAddToCart[i].addEventListener('click', (event) => {
     event.preventDefault();
 
-    //const product = new Product(card);
+    const allProductsInCart = shoppingCart.querySelectorAll('[data-id]');
+    const currentProductInCart = [...allProductsInCart].find(e => {
+      if (e.dataset.id === productList[i].dataset.id) {
+        return e;
+      }
+    })
 
-    const productInCart = document.createElement('div');
-    productInCart.classList.add('cart__product');
-    productInCart.dataset.id = productList[i].dataset.id;
-    shoppingCart.appendChild(productInCart);
+    if (currentProductInCart) {
+      const currentProductInCartQuantity = currentProductInCart.querySelector('.cart__product-count');
+      currentProductInCartQuantity.innerHTML = Number(currentProductInCartQuantity.innerHTML) + Number(productQuantityValue[i].innerText);
+    } else {
+      shoppingCart.insertAdjacentHTML('afterbegin', ` <div class="cart__product"> <img class="cart__product-image"> <div class="cart__product-count"></div> </div> `);
 
-    const productInCartImg = document.createElement('img');
-    productInCartImg.classList.add('cart__product-image');
-    productInCartImg.setAttribute('src', productImg[i].src);
-    productInCart.appendChild(productInCartImg);
+      const productInCart = document.querySelector('.cart__product');
+      productInCart.dataset.id = productList[i].dataset.id;
 
-    const productInCartQuantity = document.createElement('div');
-    productInCartQuantity.classList.add('cart__product-count');
-    productInCartQuantity.innerHTML = productQuantityValue[i].innerText;
-    productInCart.appendChild(productInCartQuantity);
+      const productInCartImg = document.querySelector('.cart__product-image');
+      productInCartImg.setAttribute('src', productImg[i].src);
+
+      const productInCartQuantity = document.querySelector('.cart__product-count');
+      productInCartQuantity.innerHTML = productQuantityValue[i].innerText;
+    }
   })
 }
