@@ -8,15 +8,15 @@ const errorMessage = 'Неверные логин/пароль';
 const welcomePage = () => {
   signIn.classList.remove('signin_active');
   welcomeActive.classList.add('welcome_active');
-  userId.innerHTML = JSON.parse(localStorage.getItem('userId'));
+  userId.innerHTML = localStorage.getItem('userId');
 }
 
 if (localStorage.userIdNum !== '') {
   welcomePage();
 }
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
+form.addEventListener('submit', () => {
+  form.reset();
 
   const formData = new FormData(form);
 
@@ -25,12 +25,12 @@ form.addEventListener('submit', (event) => {
   xhr.responseType = 'json'
   xhr.send(formData);
 
-  xhr.onreadystatechange = (event) => {
-    if (xhr.readyState === 4 && xhr.response.success === false) {
+  xhr.load = (event) => {
+    if (xhr.response.success === false) {
       alert(errorMessage);
     }
 
-    if (xhr.readyState === 4 && xhr.response.success === true) {
+    if (xhr.response.success === true) {
       let responseID = (xhr.response).user_id;
       userId.innerHTML = responseID;
       userIdNum = localStorage.setItem('userId', responseID);
